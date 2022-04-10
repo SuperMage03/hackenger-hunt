@@ -19,7 +19,7 @@ interface submitResponse{
     imageHint?: string;
 }
 
-const apiUrl = (process.env.NODE_ENV || process.env.NODE_ENV === 'development') ? `http://localhost:3080/` : 'https://sciolympiad-api.vmcs.club/';
+const apiUrl = (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') ? `http://localhost:3080/` : 'https://sciolympiad-api.vmcs.club/';
 
 class Question extends React.Component<{}, prop>{
     constructor(props : any){
