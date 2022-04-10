@@ -10,8 +10,16 @@ interface prop{
     question: string,
     description: string,
     path: string,
-    imagePaths : Array<string>
+    images : Array<string>
 }
+
+interface submitResponse{
+    correct: boolean;
+    text: string;
+    imageHint?: string;
+}
+
+const apiUrl = (process.env.NODE_ENV || process.env.NODE_ENV === 'development') ? `http://localhost:3080/` : 'https://sciolympiad-api.vmcs.club/';
 
 class Question extends React.Component<{}, prop>{
     constructor(props : any){
@@ -22,22 +30,24 @@ class Question extends React.Component<{}, prop>{
             question: "",
             description: "",
             path: "",
-            imagePaths: []
+            images: []
         }
     }
     checkQuestion = () => {
-        console.log(this.state.path);
         axios({
             method: 'post',
-            url: `http://localhost:3080/submit/${this.state.path}`,
+            url: `${apiUrl}submit/${this.state.path}`,
             data:{
                 password: this.state.password,
                 answer: this.state.answer
             }
         }).then(response => {
+            const responseData = response.data as submitResponse;
             Swal.fire({
-                icon: (response.data == true) ? 'success' : 'error',
-                title: (response.data == true) ? "Correct!" : 'error'
+                icon: (responseData.correct === true) ? 'success' : 'error',
+                title: (responseData.correct === true) ? "Correct!" : 'Incorrect!',
+                text: responseData.text,
+                ...responseData.imageHint && {imageUrl: `${apiUrl}images/${responseData.imageHint}`}
             })
         }).catch(err => {
             Swal.fire({
@@ -53,9 +63,12 @@ class Question extends React.Component<{}, prop>{
             this.setState({path: path});
             const initial = (await axios({
                 method: 'get',
-                url: `http://localhost:3080/question/${path}`
+                url: `${apiUrl}question/${path}`
                 })).data;
-            this.setState({question: initial.question, description: initial.description});
+            this.setState({question: initial.question, description: initial.description, images : initial.images});
+            if(initial.redirect){
+                window.location.assign(initial.redirect);
+            }
         }
         catch(err){
             console.log(err);
@@ -69,13 +82,17 @@ class Question extends React.Component<{}, prop>{
                 <h1>{this.state.question}</h1>
             </div>
             <div className="boxContent">
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis facilis commodi, omnis rerum repellat a quae iste fugit illo nam, eius libero minus distinctio officiis corrupti. Voluptatum vero earum nobis! Lorem ipsum dolor sit amet consectetur, adipisicing elit. Libero similique aliquid ullam adipisci impedit ipsa tempore, necessitatibus labore eius? Neque pariatur soluta aliquid natus. Nisi reiciendis quibusdam placeat id voluptatum! Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint fuga adipisci quo neque molestias veniam voluptatem aspernatur ut ipsum reiciendis! Voluptatibus, assumenda veniam eligendi deserunt iusto soluta. Eaque, nam minima.</p>
+                <p>{this.state.description}</p>
+                {((this.state.images.length !== 0) && <>
+                    <h5>Images:</h5>
+                    {this.state.images.map((image, i) => <img key={i} src={`data:image/png;base64,${image}`} />)}
+                </> )}
             </div>
             <div className="boxBottom">
                 <div className="form d-md-flex d-block">
                     <Form.Control className="mx-1 flex-grow-1 inputField my-1" placeholder="Put your answer here!" value={this.state.answer} onChange={e=>this.setState({answer: e.target.value})}></Form.Control>
                     <div className="d-block d-sm-flex my-1">
-                        <Form.Control className="mx-1 inputField" placeholder="Password!" value={this.state.password} onChange={e=>this.setState({answer: e.target.value})}></Form.Control>
+                        <Form.Control className="mx-1 inputField" placeholder="Password!" value={this.state.password} onChange={e=>this.setState({password: e.target.value})}></Form.Control>
                     <Button className="mx-1"onClick={ this.checkQuestion }>Submit!</Button>
                     </div>
                 </div>
