@@ -10,7 +10,7 @@ interface prop{
     question: string,
     description: string,
     path: string,
-    images : Array<string>
+    images? : Array<string>
 }
 
 interface submitResponse{
@@ -29,8 +29,7 @@ class Question extends React.Component<{}, prop>{
             answer: "",
             question: "",
             description: "",
-            path: "",
-            images: []
+            path: ""
         }
     }
     checkQuestion = () => {
@@ -83,7 +82,7 @@ class Question extends React.Component<{}, prop>{
             </div>
             <div className="boxContent">
                 <p>{this.state.description}</p>
-                {((this.state.images.length !== 0) && <>
+                {((this.state.images) && <>
                     <h5>Images:</h5>
                     {this.state.images.map((image, i) => <img key={i} src={`data:image/png;base64,${image}`} />)}
                 </> )}
