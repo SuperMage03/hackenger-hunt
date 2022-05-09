@@ -62,11 +62,13 @@ class Question extends React.Component<{}, prop> {
         try {
             const path = window.location.pathname.substring(1);
             this.setState({path: path});
+
             const initial = (await axios({
                 method: 'get',
                 url: `${apiUrl}question/${path}`
             })).data;
             this.setState({question: initial.question, description: initial.description, images: initial.images});
+
             if (initial.redirect) {
                 window.location.assign(initial.redirect);
             }
@@ -89,18 +91,22 @@ class Question extends React.Component<{}, prop> {
                     <p>{this.state.description}</p>
                     {((this.state.images) && <>
                         <h5>Images:</h5>
-                        {this.state.images.map((image, i) => <img key={i} src={`data:image/png;base64,${image}`}/>)}
+                        {this.state.images.map((image, i) => <img key={i} alt="question image" src={`data:image/png;base64,${image}`}/>)}
                     </>)}
                 </div>
                 <div className="boxBottom">
                     <div className="form d-md-flex d-block">
                         <Form.Control className="mx-1 flex-grow-1 inputField my-1" placeholder="Put your answer here!"
                                       value={this.state.answer}
-                                      onChange={e => this.setState({answer: e.target.value})}></Form.Control>
+                                      onChange={e => this.setState({answer: e.target.value})}>
+
+                        </Form.Control>
+
                         <div className="d-block d-sm-flex my-1">
-                            <Form.Control className="mx-1 inputField" placeholder="Password!"
+                            <Form.Control className="mx-1 inputField my-1 my-sm-0" placeholder="Password!"
                                           value={this.state.password}
-                                          onChange={e => this.setState({password: e.target.value})}></Form.Control>
+                                          onChange={e => this.setState({password: e.target.value})}>
+                            </Form.Control>
                             <Button className="mx-1" onClick={this.checkQuestion}>Submit!</Button>
                         </div>
                     </div>
