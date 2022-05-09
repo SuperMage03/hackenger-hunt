@@ -50,6 +50,9 @@ typings/
 # Optional npm cache directory
 .npm
 
+# JetBrains IDE Cache
+.idea
+
 # Optional eslint cache
 .eslintcache
 

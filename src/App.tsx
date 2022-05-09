@@ -4,13 +4,13 @@ import MainBox from './components/MainBox';
 import './styles/App.scss';
 
 function App() {
-  return (
-    <section>
-      <div className="content">
-        <MainBox />
-      </div>
-    </section>
-  );
+    return (
+        <section>
+            <div className="content">
+                <MainBox/>
+            </div>
+        </section>
+    );
 }
 
 export default App;
