@@ -1,4 +1,4 @@
-@mixin movingGrad($list){
+@mixin movingGrad($list) {
     background: radial-gradient($list);
     background-size: 400% 400%;
     animation: gradAnimation #{random() * 30 + 15}s infinite alternate;
@@ -6,13 +6,13 @@
 
 $gradientColor: #EE7752, #E73C7E, #23A6D5, #23D5AB;
 
-section{
+section {
     @include movingGrad($gradientColor);
     width: 100%;
     height: 100vh;
 }
 
-.content{
+.content {
     position: absolute;
     height: 80%;
     width: 80%;
@@ -22,19 +22,19 @@ section{
     padding: 2rem;
 }
 
-h1, h2, h3, h4, h5, h6, p{
+h1, h2, h3, h4, h5, h6, p {
     color: white;
 }
 
-@keyframes gradAnimation{
-    0%{
+@keyframes gradAnimation {
+    0% {
         background-position: random() * 100% random() * 100%;
     }
-    100%{
+    100% {
         background-position: random() * 100% random() * 100%;
     }
 }
 
-.swal2-html-container{
+.swal2-html-container {
     white-space: pre-wrap;
 }

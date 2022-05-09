@@ -5,9 +5,9 @@ import '../styles/MainBox.scss';
 
 
 const MainBox = () => {
-    return(
+    return (
         <div className="mainBox">
-            <Question />
+            <Question/>
         </div>
     );
 };

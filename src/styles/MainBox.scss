@@ -1,4 +1,4 @@
-.mainBox{
+.mainBox {
     background-color: rgba(0, 0, 0, 0.3);
     padding: 0.5rem 1rem;
     border-radius: 0.5rem;
@@ -8,12 +8,12 @@
     white-space: pre-wrap;
 }
 
-::-webkit-scrollbar{
+::-webkit-scrollbar {
     width: 0.5rem;
     height: auto;
 }
 
-::-webkit-scrollbar-track{
+::-webkit-scrollbar-track {
     border-radius: 1rem;
 }
 
@@ -22,30 +22,30 @@
     border-radius: 1rem;
     width: 80%;
 }
-  
+
 ::-webkit-scrollbar-thumb:hover {
     background: #555;
 }
 
-::-webkit-scrollbar-thumb:active{
+::-webkit-scrollbar-thumb:active {
     background: #333;
 }
 
-.boxContent{
+.boxContent {
     flex-grow: 1;
-    overflow-y:scroll;
-    display:block;
+    overflow-y: scroll;
+    display: block;
 }
 
-.form{
+.form {
     display: flex;
     flex-direction: row;
 }
 
-img{
+img {
     max-width: 100%;
 }
 
-.inputField{
+.inputField {
     width: -webkit-fill-available !important;
 }
