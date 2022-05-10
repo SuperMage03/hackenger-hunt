@@ -11,7 +11,7 @@ interface prop {
     answer: string,
     question: string,
     description: string,
-    images?: Array<string>
+    images?: Array<string>,
 }
 
 interface submitResponse {
@@ -24,6 +24,7 @@ interface submitResponse {
 const apiUrl = (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') ? `http://localhost:3080/` : 'https://sciolympiad-api.vmcs.club/';
 
 class Question extends React.Component<{}, prop> {
+    private descriptionRef: any;
     constructor(props: any) {
         super(props);
         this.state = {
@@ -32,6 +33,7 @@ class Question extends React.Component<{}, prop> {
             question: "",
             description: "",
         }
+        this.descriptionRef = React.createRef();
     }
 
     checkQuestion = async () => {
@@ -84,6 +86,7 @@ class Question extends React.Component<{}, prop> {
                 data: {progressToken: cookieContent}
             })).data;
             this.setState({question: initial.question, description: initial.description, images: initial.images});
+            this.descriptionRef.current.innerHTML = this.state.description;
 
         } catch (err) {
             console.log(err);
@@ -101,7 +104,7 @@ class Question extends React.Component<{}, prop> {
                     <h1>{this.state.question}</h1>
                 </div>
                 <div className="boxContent">
-                    <p>{this.state.description}</p>
+                    <p ref={this.descriptionRef}></p>
                     {((this.state.images) && <>
                         <h5>Images:</h5>
                         {this.state.images.map((image, i) => <img key={i} alt="question image"
